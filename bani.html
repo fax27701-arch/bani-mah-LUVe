@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A little surprise for Bani 💌</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: #fff3f6;
+      color: #542b3a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 20%, #ffe0e9 0 2px, transparent 3px),
+        radial-gradient(circle at 85% 75%, #ffd8e5 0 3px, transparent 4px),
+        linear-gradient(135deg, #fff7f8, #ffeaf0);
+    }
+
+    .card {
+      width: min(90vw, 540px);
+      padding: 42px 28px;
+      border: 1px solid #ffffff;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 20px 60px #a64e7020;
+      text-align: center;
+    }
+
+    .envelope { font-size: 2.5rem; }
+
+    h1 {
+      margin: 12px 0;
+      color: #c94f78;
+      font-size: clamp(2rem, 7vw, 3rem);
+    }
+
+    .love-note {
+      margin: 18px 0 28px;
+      font-size: 1.25rem;
+    }
+
+    .question {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .hint {
+      margin: 0;
+      color: #997482;
+      font-size: 0.9rem;
+    }
+
+    .button-area {
+      position: relative;
+      height: 100px;
+      margin-top: 20px;
+    }
+
+    button {
+      position: absolute;
+      top: 20px;
+      min-width: 112px;
+      padding: 13px 22px;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms ease, left 180ms ease, top 180ms ease;
+    }
+
+    #yesButton {
+      left: calc(50% - 122px);
+      color: white;
+      background: #e45d87;
+      box-shadow: 0 6px 16px #e45d8740;
+    }
+
+    #yesButton:hover { transform: scale(1.08); }
+
+    #noButton {
+      left: calc(50% + 10px);
+      color: #754457;
+      background: #ffe4ec;
+    }
+
+    #message {
+      min-height: 58px;
+      margin-top: 12px;
+      color: #c94f78;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -40px;
+      z-index: 2;
+      pointer-events: none;
+      animation: float-up 3.5s ease-in forwards;
+    }
+
+    @keyframes float-up {
+      to { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="envelope" aria-hidden="true">💌</div>
+    <h1>Yo Bani!</h1>
+    <p class="love-note">Just popping in to say: <strong>I luv you 💖</strong></p>
+    <p class="question">Do ya luv me too?</p>
+    <p class="hint">Choose wisely... the “No” button is feeling shy 😳</p>
+
+    <div class="button-area" id="buttonArea">
+      <button id="yesButton" type="button">Yesss! 💕</button>
+      <button id="noButton" type="button">No 🙈</button>
+    </div>
+
+    <div id="message" aria-live="polite"></div>
+  </main>
+
+  <script>
+    const area = document.getElementById("buttonArea");
+    const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
+    const message = document.getElementById("message");
+
+    noButton.addEventListener("pointerenter", () => {
+      const maxX = Math.max(0, area.clientWidth - noButton.offsetWidth);
+      const maxY = Math.max(0, area.clientHeight - noButton.offsetHeight);
+      noButton.style.left = `${Math.random() * maxX}px`;
+      noButton.style.top = `${Math.random() * maxY}px`;
+      noButton.animate(
+        [
+          { transform: "translateY(0) rotate(0)" },
+          { transform: "translateY(-16px) rotate(-8deg)" },
+          { transform: "translateY(0) rotate(8deg)" }
+        ],
+        { duration: 350 }
+      );
+    });
+
+    noButton.addEventListener("click", () => {
+      message.textContent = "Aww, that's okay — you’re still wonderful 💛";
+    });
+
+    yesButton.addEventListener("click", () => {
+      message.textContent = "Ehehe, you just made me blush! I luv you, Bani 💖";
+      for (let i = 0; i < 24; i++) {
+        const heart = document.createElement("span");
+        heart.className = "heart";
+        heart.textContent = ["💖", "💕", "💗", "✨"][Math.floor(Math.random() * 4)];
+        heart.style.left = `${Math.random() * 100}vw`;
+        heart.style.animationDelay = `${Math.random() * 1.2}s`;
+        heart.style.fontSize = `${18 + Math.random() * 22}px`;
+        document.body.appendChild(heart);
+        heart.addEventListener("animationend", () => heart.remove());
+      }
+    });
+  </script>
+</body>
+</html>
